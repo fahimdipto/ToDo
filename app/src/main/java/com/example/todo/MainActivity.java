@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static com.example.todo.fileHelper.readData;
+
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String>items;
     private ArrayAdapter <String> itemsAdapter;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        items = new ArrayList<>();
+        items= readData(this);
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,items);
         ListView.setAdapter(itemsAdapter);
         setUpListViewListener();
@@ -59,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (!(itemText.equals(""))){
             itemsAdapter.add(itemText);
+            fileHelper.writeData(items, this);
             input.setText("");
+            Toast.makeText(this, "new task added", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(getApplicationContext(),"empty task , please add a task", Toast.LENGTH_LONG).show();
